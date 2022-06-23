@@ -1,6 +1,10 @@
 cmake_minimum_required (VERSION 3.22)
 project(cmake_example)
 
+ADD_SUBDIRECTORY(proto)
+
+include_directories(${CMAKE_BINARY_DIR}/proto)
+
 include(FetchContent)
 FetchContent_Declare(
   pybind11
@@ -10,6 +14,12 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(pybind11)
 
 pybind11_add_module(cmake_example src/main.cpp)
+
+target_link_libraries(
+    cmake_example
+    PRIVATE proto_test
+
+)
 
 # EXAMPLE_VERSION_INFO is defined by setup.py and passed into the C++ code as a
 # define (VERSION_INFO) here.
